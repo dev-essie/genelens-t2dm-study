@@ -1,8 +1,8 @@
-# Transcriptomic Workflow Demonstration — Type 2 Diabetes Liver
+# Transcriptomic Workflow Demonstration, Type 2 Diabetes Liver
 ### Using GeneLens · Differential Expression · GO Enrichment · KEGG Pathways · ML Classification
 
 **Author:** Alabi Esther Oluwatimilehin
-**Institution:** University of Medical Sciences, Nigeria — BSc Biochemistry, First Class Honours
+**Institution:** University of Medical Sciences, Nigeria, BSc Biochemistry, First Class Honours
 **Tool:** [GeneLens](https://github.com/ESTIE-CREATOR/GeneLens) · [Live App](https://genelens.streamlit.app)
 **Date:** June 2026
 
@@ -10,13 +10,13 @@
 
 > ⚠️ **Important Note**
 >
-> This repository demonstrates the GeneLens analysis workflow using a **synthetic dataset** constructed to resemble a Type 2 Diabetes liver expression study.
+> This repository demonstrates the GeneLens analysis **workflow** using a **synthetic dataset**, a hand-curated panel of ~226 oxidative-stress and metabolic genes constructed to resemble a Type 2 Diabetes liver study.
 >
-> The objective was to validate the statistical, enrichment, machine learning, and AI interpretation pipeline while developing GeneLens.
+> The objective was to exercise the statistical, enrichment, machine-learning, and AI-interpretation pipeline end to end while developing GeneLens.
 >
-> The reported biological findings should be considered **illustrative** and not biological conclusions derived from original experimental data.
+> **Everything here is a workflow illustration, not a biological finding.** Because the gene panel was curated around oxidative-stress and metabolic biology, enrichment necessarily returns glutathione, insulin, and glucose-homeostasis terms **by construction**, this measures how the panel was selected, not a discovery. Enrichment p-values have therefore been removed from this document; they would quantify gene selection, not biology. For real findings, the same workflow is run on real GEO data (COVID-19 GSE152418 in the main GeneLens repo; a real GEO T2DM liver cohort is the recommended next step).
 >
-> **Primary real-data validation of GeneLens:** COVID-19 PBMC dataset (GSE152418, *Science* 2020) — 60,683 genes × 34 real patient samples. See [GeneLens](https://github.com/ESTIE-CREATOR/GeneLens).
+> **Primary real-data validation of GeneLens:** COVID-19 PBMC dataset (GSE152418, *Science* 2020), 44,242 genes (after gene-ID mapping) × 34 real patient samples. See [GeneLens](https://github.com/ESTIE-CREATOR/GeneLens).
 
 ---
 
@@ -24,7 +24,7 @@
 
 This repository presents a computational workflow demonstration using [GeneLens](https://github.com/ESTIE-CREATOR/GeneLens) on a synthetic Type 2 Diabetes liver dataset.
 
-The study was motivated by my final-year biochemistry thesis, which measured antioxidant enzyme activity (SOD, CAT, GPx, GSH, MDA) in diabetic rat liver. This demonstration explores whether the same antioxidant genes studied in my thesis appear dysregulated in a T2DM-structured transcriptomics dataset — and uses this context to showcase the full GeneLens pipeline from raw counts to pathway-level interpretation.
+The study was motivated by my final-year biochemistry thesis, which measured antioxidant and oxidative-stress markers (SOD, CAT, GPx, GST, GSH, MDA) in diabetic rat liver. This demonstration explores whether the same antioxidant genes studied in my thesis appear dysregulated in a T2DM-structured transcriptomics dataset, and uses this context to showcase the full GeneLens pipeline from raw counts to pathway-level interpretation.
 
 ---
 
@@ -35,11 +35,11 @@ The study was motivated by my final-year biochemistry thesis, which measured ant
 | GPx activity ↓ | GPX1 | ↓ | GO:0006749 Glutathione process | hsa00480 Glutathione metabolism |
 | GSH synthesis ↓ | GCLM | ↓ | GO:0006749 Glutathione process | hsa00480 Glutathione metabolism |
 | GSH levels ↓ | GSR | ↓ | GO:0006749 Glutathione process | hsa00480 Glutathione metabolism |
-| SOD activity ↓ | SOD2 | ↓ trend | — | — |
-| CAT activity ↓ | CAT | ↓ trend | — | — |
+| SOD activity ↓ | SOD2 | ↓ trend | n/a | n/a |
+| CAT activity ↓ | CAT | ↓ trend | n/a | n/a |
 | MDA levels ↑ | CYP2E1 | ↑ | GO:0072593 ROS metabolic process | hsa04932 NAFLD |
 
-> This table illustrates the conceptual connection between wet-lab biochemistry and transcriptomic pipeline outputs — not experimental validation.
+> This table illustrates the conceptual connection between wet-lab biochemistry and transcriptomic pipeline outputs, not experimental validation.
 
 ---
 
@@ -63,11 +63,11 @@ The study was motivated by my final-year biochemistry thesis, which measured ant
 | Category | Count |
 |----------|-------|
 | Total genes | 226 |
-| Upregulated | 6 |
-| Downregulated | 12 |
-| Not significant | 208 |
+| Upregulated | 22 |
+| Downregulated | 25 |
+| Not significant | 179 |
 
-> Results are outputs of the GeneLens pipeline on this synthetic dataset and are illustrative only.
+> Reproducible with the committed `data/Diabetic_Liver_RNA-seq.csv` at padj < 0.05, FC ≥ 1.5 using the current pipeline. Outputs on a synthetic panel, illustrative only.
 
 ---
 
@@ -81,41 +81,29 @@ The study was motivated by my final-year biochemistry thesis, which measured ant
 ### Heatmap
 <img width="1919" height="879" alt="Image" src="https://github.com/user-attachments/assets/e6317568-e7e0-48ac-91a5-61f0d985ffce" />
 
-### PCA — Sample Clustering
+### PCA, Sample Clustering
 <img width="1919" height="877" alt="Image" src="https://github.com/user-attachments/assets/c0fdf5ae-aacf-4589-bcd9-917c22df1d9d" />
 
 ### GO Enrichment
 <img width="1919" height="943" alt="Image" src="https://github.com/user-attachments/assets/1f415041-4918-4d2a-932d-954a9172ff04" />
 
-*Glutathione metabolic process — most depleted GO term*
+*Glutathione metabolic process, enriched among down-regulated genes (thesis-relevant term; illustrative, see note above)*
 
 ### KEGG Pathways
 <img width="1919" height="948" alt="Image" src="https://github.com/user-attachments/assets/e79afb9c-c05f-4051-a77d-dbd09504edc8" />
 
-*Insulin signalling (p=1.86e-08) · Glutathione metabolism · Type II diabetes mellitus*
+*Insulin signalling · Glutathione metabolism · Type II diabetes mellitus (illustrative, returned by construction from the curated panel; p-values omitted, see note above)*
 
-### ML Classification — ROC Curve
+### ML Classification, ROC Curve
 <img width="1919" height="885" alt="Image" src="https://github.com/user-attachments/assets/581f2724-8a13-476f-9411-43ffc6b91fc7" />
 
 ---
 
-## Top GO Terms (Illustrative)
+## Enrichment families returned (illustrative, no p-values, by design)
 
-| GO Term | Biological Process | p-adj |
-|---------|-------------------|-------|
-| GO:0042593 | **Glucose homeostasis** | 6.00e-07 |
-| GO:0033500 | Carbohydrate homeostasis | 1.21e-06 |
-| GO:0006749 | **Glutathione metabolic process** | 1.19e-03 |
-| GO:0045454 | Cell redox homeostasis | 1.19e-03 |
+On this curated panel, GO enrichment returns **glucose-homeostasis, carbohydrate-homeostasis, glutathione-metabolic-process, and cell-redox-homeostasis** families; KEGG returns **insulin signaling, non-alcoholic fatty liver disease, type II diabetes mellitus, and glutathione metabolism**.
 
-## Top KEGG Pathways (Illustrative)
-
-| KEGG ID | Pathway | p-adj |
-|---------|---------|-------|
-| hsa04910 | **Insulin signaling pathway** | 1.86e-08 |
-| hsa04932 | Non-alcoholic fatty liver disease | 1.21e-05 |
-| hsa04930 | **Type II diabetes mellitus** | 1.52e-04 |
-| hsa00480 | **Glutathione metabolism** | 2.54e-04 |
+These are exactly the families the panel was curated around, so their appearance is **expected by construction, not a discovery**. P-values are intentionally omitted: on a hand-selected gene panel against a genome-wide background, an enrichment p-value measures panel selection, not biology. The families are listed only to show what the enrichment step outputs; treat them as a workflow illustration. Directional enrichment (up vs down separately) is now supported in GeneLens, so on real data these families would carry a defensible direction.
 
 ---
 
@@ -152,11 +140,11 @@ The study was motivated by my final-year biochemistry thesis, which measured ant
 
 ## References
 
-1. Ashburner M, et al. (2000). Gene ontology: tool for the unification of biology. *Nat Genet*, 25(1):25–29. — *GO database used for GO enrichment*
+1. Ashburner M, et al. (2000). Gene ontology: tool for the unification of biology. *Nat Genet*, 25(1):25–29., *GO database used for GO enrichment*
 
-2. Kuleshov MV, et al. (2016). Enrichr: a comprehensive gene set enrichment analysis web server. *Nucleic Acids Res*, 44(W1):W90–97. — *Enrichr API used by GeneLens*
+2. Kuleshov MV, et al. (2016). Enrichr: a comprehensive gene set enrichment analysis web server. *Nucleic Acids Res*, 44(W1):W90–97., *Enrichr API used by GeneLens*
 
-3. Kanehisa M, Goto S. (2000). KEGG: Kyoto Encyclopedia of Genes and Genomes. *Nucleic Acids Res*, 28(1):27–30. — *KEGG database used for pathway enrichment*
+3. Kanehisa M, Goto S. (2000). KEGG: Kyoto Encyclopedia of Genes and Genomes. *Nucleic Acids Res*, 28(1):27–30., *KEGG database used for pathway enrichment*
 
 ---
 
